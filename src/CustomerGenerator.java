@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 class CustomerGenerator implements Runnable {
@@ -11,15 +10,14 @@ class CustomerGenerator implements Runnable {
     public void run() {
         while (true) {
             Customer customer = new Customer(shop);
-            customer.setInTime(new Date());
-            Thread thcustomer = new Thread(customer);
-            customer.setName("Customer " + thcustomer.getName());
-            thcustomer.start();
+            Thread customerThread = new Thread(customer);
+            customer.setName("Customer " + customerThread.getName());
+            customerThread.start();
 
             try {
                 TimeUnit.SECONDS.sleep((long) (Math.random() * 10) + 1);
-            } catch (InterruptedException iex) {
-                iex.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

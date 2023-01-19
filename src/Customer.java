@@ -1,8 +1,5 @@
-import java.util.Date;
-
 class Customer implements Runnable {
     String name;
-    Date inTime;
 
     BarberShop shop;
 
@@ -14,16 +11,8 @@ class Customer implements Runnable {
         return name;
     }
 
-    public Date getInTime() {
-        return inTime;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setInTime(Date inTime) {
-        this.inTime = inTime;
     }
 
     public void run() {

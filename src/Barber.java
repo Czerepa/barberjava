@@ -8,8 +8,8 @@ class Barber implements Runnable {
     public void run() {
         try {
             Thread.sleep(10000);
-        } catch (InterruptedException iex) {
-            iex.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         System.out.println("Barber started...");
         while (true) {

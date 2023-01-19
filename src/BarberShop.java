@@ -5,55 +5,55 @@ import java.util.concurrent.TimeUnit;
 
 class BarberShop {
     int nchair;
-    List<Customer> listCustomer;
+    List<Customer> customerList;
 
     public BarberShop() {
         nchair = 3;
-        listCustomer = new LinkedList<>();
+        customerList = new LinkedList<>();
     }
 
     public void cutHair() {
         Customer customer;
         System.out.println("Barber waiting for lock.");
-        synchronized (listCustomer) {
+        synchronized (customerList) {
 
-            while (listCustomer.size() == 0) {
+            while (customerList.size() == 0) {
                 System.out.println("Barber is waiting for customer.");
                 try {
-                    listCustomer.wait();
-                } catch (InterruptedException iex) {
-                    iex.printStackTrace();
+                    customerList.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
             System.out.println("Barber found a customer in the queue.");
-            customer = (Customer) ((LinkedList<?>) listCustomer).poll();
+            customer = (Customer) ((LinkedList<?>) customerList).poll();
         }
         long duration = 0;
         try {
             System.out.println("Cutting hair of Customer: " + Objects.requireNonNull(customer).getName());
             duration = (long) (Math.random() * 10) + 1;
             TimeUnit.SECONDS.sleep(duration);
-        } catch (InterruptedException iex) {
-            iex.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        System.out.println("Completed Cutting hair of Customer: " + Objects.requireNonNull(customer).getName() + " in " + duration + " seconds.");
+        System.out.println("Completed cutting hair of Customer: " + Objects.requireNonNull(customer).getName() + " in " + duration + " seconds.");
     }
 
     public void add(Customer customer) {
         System.out.println(customer.getName() + " entered the shop.");
 
-        synchronized (listCustomer) {
-            if (listCustomer.size() == nchair) {
+        synchronized (customerList) {
+            if (customerList.size() == nchair) {
                 System.out.println("No chair available for customer " + customer.getName());
-                System.out.println("Customer " + customer.getName() + " exists...");
+                System.out.println("Customer " + customer.getName() + " exits...");
                 return;
             }
 
-            ((LinkedList<Customer>) listCustomer).offer(customer);
+            ((LinkedList<Customer>) customerList).offer(customer);
             System.out.println(customer.getName() + " got the chair.");
 
-            if (listCustomer.size() == 1)
-                listCustomer.notify();
+            if (customerList.size() == 1)
+                customerList.notify();
         }
     }
 }

@@ -4,11 +4,11 @@ public class Main {
         BarberShop shop = new BarberShop();
 
         Barber barber = new Barber(shop);
-        CustomerGenerator cg = new CustomerGenerator(shop);
+        CustomerGenerator customerGenerator = new CustomerGenerator(shop);
 
-        Thread thbarber = new Thread(barber);
-        Thread thcg = new Thread(cg);
-        thcg.start();
-        thbarber.start();
+        Thread barberThread = new Thread(barber);
+        Thread customerGeneratorThread = new Thread(customerGenerator);
+        customerGeneratorThread.start();
+        barberThread.start();
     }
 }
