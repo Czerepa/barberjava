@@ -2,8 +2,11 @@ import java.util.concurrent.TimeUnit;
 
 class CustomerGenerator implements Runnable {
     BarberShop shop;
+    int min,max;
 
-    public CustomerGenerator(BarberShop shop) {
+    public CustomerGenerator(BarberShop shop, int minInterval, int maxInterval) {
+        this.min = minInterval;
+        this.max = maxInterval;
         this.shop = shop;
     }
 
@@ -15,7 +18,9 @@ class CustomerGenerator implements Runnable {
             customerThread.start();
 
             try {
-                TimeUnit.SECONDS.sleep((long) (Math.random() * 10) + 1);
+                long sleepDuration = (long)(Math.random() * (max - min + 1) + min);
+                //System.out.println("Timeout: " + sleepDuration);
+                TimeUnit.SECONDS.sleep(sleepDuration);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
