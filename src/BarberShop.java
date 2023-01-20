@@ -4,11 +4,13 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 class BarberShop {
-    int nchair;
+    int nchair, min, max;
     List<Customer> customerList;
 
-    public BarberShop() {
-        nchair = 3;
+    public BarberShop(int waitingRoomSize, int minCuttingDuration, int maxCuttingDuration) {
+        this.nchair = waitingRoomSize;
+        this.min = minCuttingDuration;
+        this.max = maxCuttingDuration;
         customerList = new LinkedList<>();
     }
 
@@ -28,15 +30,15 @@ class BarberShop {
             System.out.println("Barber found a customer in the queue.");
             customer = (Customer) ((LinkedList<?>) customerList).poll();
         }
-        long duration = 0;
+        long cuttingDuration = 0;
         try {
             System.out.println("Cutting hair of Customer: " + Objects.requireNonNull(customer).getName());
-            duration = (long) (Math.random() * 10) + 1;
-            TimeUnit.SECONDS.sleep(duration);
+            cuttingDuration = (long)(Math.random() * (max - min + 1) + min);
+            TimeUnit.SECONDS.sleep(cuttingDuration);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Completed cutting hair of Customer: " + Objects.requireNonNull(customer).getName() + " in " + duration + " seconds.");
+        System.out.println("Completed cutting hair of Customer: " + Objects.requireNonNull(customer).getName() + " in " + cuttingDuration + " seconds.");
     }
 
     public void add(Customer customer) {
